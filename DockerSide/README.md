@@ -1,6 +1,32 @@
-1. Use CF template and spin up an EC2 instance which Docker is being installed.
-2. Test it with: docker run hello-world
-3. Prepare Dockerfile
+- Use CF template (N. Virginia) and spin up an EC2 instance which Docker is already installed, SSH and HTTP ports are open.
+
+- Check if docker is active and running:
+
+```bash
+systemctl status docker
+```
+
+- Copy webpage content from on-prem to EC2 instance, under /webpage directory in out instance:
+
+```bash
+scp -i "pemname.pem" -r ./website ec2-user@ec2-18-212-68-212.compute-1.amazonaws.com:/home/ec2-user
+```
+
+#To move all files and folders to an upper folder in linux:
+
+```bash
+mv  -v ./* ../
+```
+
+- Create an nginx containter and bind mount newly created folder:
+
+```bash
+docker run -d --name explore-california -p 80:80 -v /home/ec2-user/webpage:/usr/share/nginx/html nginx
+```
+
+- This is manual (imperative) deployment of the webpage. Lets do it with declerative approach.
+
+- Prepare Dockerfile
     * vim Dockerfile
     * To find out the image we need to write to FROM section; go to https://hub.docker.com/
     * Search an image which can run nginx, bcoz we need nginx to run our website.
@@ -16,6 +42,6 @@
     * What port should be exposed: EXPOSE 80
     * :wq
     * Use Dockerfile Documentation for further querries: https://docs.docker.com/engine/reference/builder/
-4. Run the image:
+5. Run the image:
     * For detailed info: docker build --help
     * docker build --tag website .

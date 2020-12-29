@@ -24,7 +24,7 @@ mv  -v ./* ../
 docker run -d --name explore-california -p 80:80 -v /home/ec2-user/webpage:/usr/share/nginx/html nginx
 ```
 
-- This is manual (imperative) deployment of the webpage. Lets do it with declerative approach.
+- This is manual (imperative) deployment of the webpage. Let's do it with declerative approach.
 
 - Prepare Dockerfile
     * vim Dockerfile
@@ -35,13 +35,17 @@ docker run -d --name explore-california -p 80:80 -v /home/ec2-user/webpage:/usr/
     * See all the supported images we can use on "Supported tags and respective Dockerfile links"
     * See "alpine" is enough for us, we use Amazon Linux
     * FROM nginx:alpine --> We use alpine image and nginx on top of it
-    * MAINTAINER Rafe Stefano <email>
-    * Copy the content of the website to the image: COPY website /website
+    * MAINTAINER Rafe Stefano <email>  # This is optional
+    * Copy the content of the website to the image: COPY webpage /webpage
     * Copy nginx config for prod: COPY nginx.conf /etc/nginx.conf
     * Look at the image documentation, how to use it! "How to use this image"
     * What port should be exposed: EXPOSE 80
     * :wq
     * Use Dockerfile Documentation for further querries: https://docs.docker.com/engine/reference/builder/
-5. Run the image:
+
+- Build the image:
     * For detailed info: docker build --help
     * docker build --tag website .
+
+- Run the image:
+    * docker run --publish 80:80 website

@@ -1,4 +1,4 @@
-FROM nginx
-COPY website /website
-COPY nginx.conf /etc/nginx.conf
+FROM nginx:alpine
+COPY webpage /webpage
+COPY nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80
